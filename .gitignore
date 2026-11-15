@@ -1,0 +1,5 @@
+# software factory runtime state
+factory/board.json
+factory/jobs/
+.worktrees/
+factory/config.local.json
