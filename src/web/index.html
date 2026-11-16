@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Service status panel</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./main.ts"></script>
+  </head>
+  <body>
+    <main class="panel">
+      <h1>Service status panel</h1>
+      <p class="panel-intro">Status of the service, checked once when the page opens.</p>
+      <p
+        id="service-status"
+        class="status"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        aria-busy="true"
+        data-state="loading"
+      >
+        Checking the service…
+      </p>
+      <noscript>
+        <p class="status" data-state="unavailable">
+          This panel needs JavaScript to check the service.
+        </p>
+      </noscript>
+    </main>
+  </body>
+</html>

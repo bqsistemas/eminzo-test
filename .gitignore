@@ -3,3 +3,7 @@ factory/board.json
 factory/jobs/
 .worktrees/
 factory/config.local.json
+
+# dependencies and build output
+node_modules/
+dist/
