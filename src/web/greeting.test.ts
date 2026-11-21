@@ -55,4 +55,12 @@ describe("greeting", () => {
     expect(rule).not.toMatch(/(^|[;\s])width\s*:/);
     expect(rule).not.toMatch(/position\s*:\s*(absolute|fixed)/);
   });
+
+  it("AC-6: the verify script still runs lint, typecheck, test and build", () => {
+    const pkg = JSON.parse(readFileSync(join(here, "../../package.json"), "utf8"));
+    const verify: string = pkg.scripts.verify;
+    const order = ["lint", "typecheck", "test", "build"].map((s) => verify.indexOf(s));
+    expect(order.every((i) => i >= 0)).toBe(true);
+    expect([...order].sort((a, b) => a - b)).toEqual(order);
+  });
 });
