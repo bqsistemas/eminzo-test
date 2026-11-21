@@ -75,8 +75,9 @@ flags files a job adds or moves that no line mentions.
   closes cleanly on SIGINT and SIGTERM.
 - `src/server/port.ts`: `readPort()` and the loopback host and default ports, shared by
   `src/server/main.ts` and `vite.config.ts`.
-- `src/web/index.html`: the panel page, with the `#service-status` live region.
+- `src/web/index.html`: the panel page, with the static `#greeting` and the `#service-status` live region.
 - `src/web/styles.css`: the panel styles.
+- `src/web/greeting.test.ts`: reads the page and styles from disk to test the greeting.
 - `src/web/status.ts`: `loadStatus()` (never rejects, validates the body), `renderStatus()`
   (text only, `data-state`) and `mountStatus()`.
 - `src/web/main.ts`: panel entry: mounts the status region.
@@ -111,6 +112,8 @@ flags files a job adds or moves that no line mentions.
 - Stable ids and selectors: `#service-status` is the status region (`role="status"`,
   `aria-live="polite"`, `aria-atomic="true"`, `aria-busy` while loading). Its `data-state` is
   `loading`, `working` or `unavailable`; the text tells the state, the colour only reinforces it.
+- `#greeting` is a static, centered `Hello, world!` paragraph before the status region; no
+  `role`, no `aria-live`, not written by script.
 - Text is always written with `textContent`, never as HTML; nothing from a response body reaches
   the DOM.
 - Layout: a single column, `max-width: 40rem`, no horizontal overflow on narrow screens; no
