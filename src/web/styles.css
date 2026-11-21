@@ -34,6 +34,11 @@ h1 {
   color: #4b5563;
 }
 
+.greeting {
+  margin: 0 0 1.5rem;
+  text-align: center;
+}
+
 /* The state is told by the text; the colours only reinforce it. */
 .status {
   margin: 0;
