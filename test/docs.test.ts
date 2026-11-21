@@ -99,6 +99,16 @@ describe("project documentation", () => {
     }
   });
 
+  it("AC-8: ## UI contract describes the sidebar layout and keeps its fixed rules", () => {
+    const ui = section(projectMd, "UI contract");
+
+    expect(ui).toContain("nav.sidebar");
+    expect(ui).toContain(".sidebar-group");
+    expect(ui).not.toContain("single column");
+    expect(ui).toContain("max-width: 40rem");
+    expect(ui).toContain('lang="en"');
+  });
+
   it("AC-8: every tracked file is covered by the ## Module map", () => {
     const listed = spawnSync("git", ["ls-files", "-z"], { cwd: repoRoot, encoding: "utf8" });
     expect(listed.status).toBe(0);

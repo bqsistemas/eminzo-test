@@ -75,8 +75,9 @@ flags files a job adds or moves that no line mentions.
   closes cleanly on SIGINT and SIGTERM.
 - `src/server/port.ts`: `readPort()` and the loopback host and default ports, shared by
   `src/server/main.ts` and `vite.config.ts`.
-- `src/web/index.html`: the panel page, with the static `#greeting` and the `#service-status` live region.
-- `src/web/styles.css`: the panel styles.
+- `src/web/index.html`: the panel page: a `nav.sidebar` with anchor links to the examples, the static `#greeting` and the `#service-status` live region.
+- `src/web/styles.css`: the panel styles, including the two-zone sidebar layout.
+- `src/web/sidebar.test.ts`: reads the page and styles from disk to test the sidebar.
 - `src/web/greeting.test.ts`: reads the page and styles from disk to test the greeting.
 - `src/web/status.ts`: `loadStatus()` (never rejects, validates the body), `renderStatus()`
   (text only, `data-state`) and `mountStatus()`.
@@ -116,8 +117,12 @@ flags files a job adds or moves that no line mentions.
   `role`, no `aria-live`, not written by script.
 - Text is always written with `textContent`, never as HTML; nothing from a response body reaches
   the DOM.
-- Layout: a single column, `max-width: 40rem`, no horizontal overflow on narrow screens; no
-  animation. Colours are plain values in `src/web/styles.css` (no design tokens yet).
+- Layout: two zones, the sidebar and the content (`max-width: 40rem`, centred in its zone); below
+  about 48rem the sidebar stacks above the content using CSS only. No horizontal overflow on
+  narrow screens; no animation.
+- Sidebar: `nav.sidebar` with an accessible name, before `main.panel`. Stable selectors:
+  `.sidebar-group` (one `h2.sidebar-group-title` and one `ul.sidebar-links`). Each entry is one
+  anchor link to an id that exists in the page; no script, no collapse button. Colours are plain values in `src/web/styles.css` (no design tokens yet).
 - Same origin: the page reaches the service only through the dev server's `/api` proxy; the
   service sends no CORS headers.
 
