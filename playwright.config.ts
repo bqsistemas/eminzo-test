@@ -23,7 +23,7 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      // Playwright launches Chromium with --no-sandbox unless chromiumSandbox is true.
+      // Playwright turns the Chromium sandbox off unless chromiumSandbox is true.
       use: {
         ...devices["Desktop Chrome"],
         headless: true,
