@@ -22,8 +22,18 @@ const STEPS = {
   typecheck: "run typecheck",
   test: "test",
   build: "run build",
+  browserInstall: "run browser:install",
+  browserTest: "run test:browser",
 } as const;
-const ORDER = [STEPS.install, STEPS.lint, STEPS.typecheck, STEPS.test, STEPS.build];
+const ORDER = [
+  STEPS.install,
+  STEPS.lint,
+  STEPS.typecheck,
+  STEPS.test,
+  STEPS.build,
+  STEPS.browserInstall,
+  STEPS.browserTest,
+];
 
 // A fake npm: it records each call's arguments and fails the call named in FAKE_NPM_FAIL.
 const FAKE_NPM = `#!/bin/sh
@@ -73,7 +83,7 @@ function runChecks(failing?: string, focusedChanges?: string[]): Run {
 }
 
 describe("factory/checks.sh in full mode", () => {
-  it("AC-7: runs npm ci, lint, typecheck, test and build in that order and exits 0", () => {
+  it("AC-4: runs npm ci, lint, typecheck, test, build and the two browser steps in that order and exits 0", () => {
     const { code, calls } = runChecks();
 
     expect(calls).toEqual(ORDER);
@@ -86,7 +96,9 @@ describe("factory/checks.sh in full mode", () => {
     ["typecheck", STEPS.typecheck],
     ["test", STEPS.test],
     ["build", STEPS.build],
-  ])("AC-7: a failing %s step exits non-zero and runs none of the later steps", (_name, step) => {
+    ["browser install", STEPS.browserInstall],
+    ["browser test", STEPS.browserTest],
+  ])("AC-4: a failing %s step exits non-zero and runs none of the later steps", (_name, step) => {
     const { code, calls } = runChecks(step);
 
     expect(code).not.toBe(0);

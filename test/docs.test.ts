@@ -62,6 +62,27 @@ describe("project documentation", () => {
     }
   });
 
+  it("AC-7: ## Stack names Playwright and Chromium", () => {
+    const stack = section(projectMd, "Stack");
+
+    expect(stack).toContain("Playwright");
+    expect(stack).toContain("Chromium");
+  });
+
+  it("AC-7: ## Commands has a Browser tests entry with both commands", () => {
+    const commands = section(projectMd, "Commands");
+
+    expect(commands).toMatch(/^- Browser tests:/m);
+    expect(commands).toContain("npm run browser:install");
+    expect(commands).toContain("npm run test:browser");
+  });
+
+  it("AC-7: the README explains installing the browser, running the tests and the gate", () => {
+    expect(readme).toContain("npm run browser:install");
+    expect(readme).toContain("npm run test:browser");
+    expect(readme).toMatch(/gate[^.]*browser|browser[^.]*gate/i);
+  });
+
   it("AC-8: ## Commands gives install, run, test, build and verify", () => {
     const commands = section(projectMd, "Commands");
 

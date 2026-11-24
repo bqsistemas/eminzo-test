@@ -14,10 +14,13 @@
     "typecheck": "tsc -p tsconfig.server.json --noEmit && tsc -p tsconfig.web.json && tsc -p tsconfig.test.json",
     "test": "vitest run",
     "build": "vite build && tsc -p tsconfig.server.json",
-    "verify": "npm run lint && npm run typecheck && npm test && npm run build"
+    "verify": "npm run lint && npm run typecheck && npm test && npm run build",
+    "test:browser": "playwright test",
+    "browser:install": "playwright install chromium"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.8",
+    "@playwright/test": "1.65.1",
     "@types/node": "24.19.2",
     "happy-dom": "21.0.4",
     "typescript": "7.0.2",

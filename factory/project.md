@@ -7,7 +7,7 @@ when a change alters the stack, the commands or the modules; the gate flags a
 
 ## Snapshot
 
-- 2026-11-15, after job 003 (project base: service, panel, shared contract, real checks).
+- 2026-11-24, after job 010 (browser tests of the panel status in Chromium, run by the gate).
 - `eminzo-test` is a repository used to exercise the Eminzo software factory. It now holds a
   TypeScript base: a Node.js service with one status query, a web panel that shows it, a type
   contract shared by both, tests, and a `factory/checks.sh` that really checks every change.
@@ -37,7 +37,7 @@ when a change alters the stack, the commands or the modules; the gate flags a
   development the service runs from source with Node's native type stripping (no `tsx`).
 - Only `devDependencies`, all exact: Vite 8.3.8 (panel dev server and bundle), Vitest 5.1.0
   (tests), Biome 2.6.8 (lint and format), happy-dom 21.0.4 (DOM for the panel tests only),
-  `@types/node` 24.19.2. No runtime dependency: the service uses `node:http` only.
+  `@types/node` 24.19.2, `@playwright/test` 1.65.1 (Playwright drives Chromium only; the browser binary lives in Playwright's per-user cache, outside the repo). No runtime dependency: the service uses `node:http` only.
 - Factory tooling (not part of the product): `eminzo` CLI, engine range `0.2.x` in
   `factory/config.json`; `git` and `gh` for branches and pull requests.
 
@@ -56,8 +56,12 @@ when a change alters the stack, the commands or the modules; the gate flags a
 - Build: `npm run build` (panel bundle in `dist/web`, service JavaScript in `dist/server`).
 - Verify: `npm run verify` runs lint, typecheck, test and build in that order and stops at the
   first failure.
+- Browser tests: `npm run browser:install` (once, needs the network: downloads Chromium) and
+  `npm run test:browser` (starts the service and the panel on free loopback ports, runs
+  `test/browser/*.spec.ts` in Chromium, stops everything). Not part of `npm test` or `verify`.
 - Gate: `factory/checks.sh` in full mode runs `npm ci --ignore-scripts --no-audit --no-fund`,
-  then lint, typecheck, test and build as separate steps; the first failure stops it with a
+  then lint, typecheck, test, build, `npm run browser:install` and `npm run test:browser` as
+  separate steps (the browser steps need the network to fetch Chromium the first time); the first failure stops it with a
   non-zero exit. It uses the `node` and `npm` in the gate's `PATH`: that must be Node.js 24, or
   `npm ci` stops with `EBADENGINE`. It needs the network for `npm ci`.
 
@@ -83,7 +87,10 @@ flags files a job adds or moves that no line mentions.
   (text only, `data-state`) and `mountStatus()`.
 - `src/web/main.ts`: panel entry: mounts the status region.
 - `src/**/*.test.ts`, `test/`: Vitest tests (service, panel, contract mutation with `tsc`,
-  `factory/checks.sh` with a fake `npm`, docs and manifest).
+  `factory/checks.sh` with a fake `npm`, docs and manifest) and `test/browser/*.spec.ts`, the
+  Playwright tests (never run by Vitest) with `test/browser/ports.ts`, which picks free ports.
+- `playwright.config.ts`: Playwright: one Chromium project, `test/browser`, `*.spec.ts` only; starts
+  the service and two panels (one proxied to a dead port) with `webServer` on free loopback ports.
 - `package.json`: manifest: engines, exact `devDependencies` and the scripts above.
 - `package-lock.json`: npm lockfile.
 - `.npmrc`: `engine-strict=true`, `save-exact=true`.
@@ -97,7 +104,8 @@ flags files a job adds or moves that no line mentions.
 - `vitest.config.ts`: Vitest: tests only under `src/` and `test/`.
 - `README.md`: what the project is, requirements, install, run and check commands.
 - `.gitignore`: ignores `node_modules/`, `dist/` and the factory runtime state
-  (`factory/board.json`, `factory/jobs/`, `.worktrees/`, `factory/config.local.json`).
+  (`factory/board.json`, `factory/jobs/`, `.worktrees/`, `factory/config.local.json`) and
+  Playwright's output (`test-results/`, `playwright-report/`).
 - `.claude/settings.json`: Claude Code project permissions (allows `eminzo` commands).
 - `.atl/`: AI tooling skill registry; not part of the product.
 - `factory/config.json`: factory configuration (base `origin/main`, concurrency, rounds,
@@ -139,6 +147,8 @@ flags files a job adds or moves that no line mentions.
   `// @vitest-environment happy-dom` comment; the rest run in Node.
 - Tools are scoped to explicit paths (`src/`, `test/`, the tsconfig includes) because job
   worktrees live under `.worktrees/` inside the main checkout.
+- Browser tests live in `test/browser/*.spec.ts`, one file per screen, named after the AC they
+  prove. Vitest never runs them; `npm run test:browser` does.
 - Changing the status contract means changing `src/shared/status.ts`; the panel's exhaustive
   `switch` in `src/web/status.ts` must then handle every `status` value.
 

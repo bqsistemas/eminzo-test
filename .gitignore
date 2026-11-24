@@ -7,3 +7,7 @@ factory/config.local.json
 # dependencies and build output
 node_modules/
 dist/
+
+# Playwright output
+test-results/
+playwright-report/
