@@ -15,7 +15,11 @@ adapts.
 
 ```sh
 npm ci
+npm run browser:install   # once, needs the network: downloads Chromium
 ```
+
+`npm run browser:install` puts Chromium in Playwright's per-user cache, outside the repo. It needs
+no system packages and no `sudo`.
 
 ## Run
 
@@ -47,6 +51,13 @@ SERVICE_PORT=3100 WEB_PORT=5200 npm run dev:web
 - `npm run typecheck`: TypeScript for the service, the panel and the tests, each with its config.
 - `npm test`: the Vitest suite.
 - `npm run build`: the panel bundle in `dist/web` and the service JavaScript in `dist/server`.
+- `npm run test:browser`: the Playwright tests in a real Chromium (`test/browser/*.spec.ts`). It
+  starts the service and the panel itself on free loopback ports (never 3000 or 5173), checks the
+  panel with the service running and with it down, and stops everything when it ends, whether the
+  tests pass or fail. Run `npm run browser:install` once first. It is not part of `npm test` or
+  `npm run verify`.
 
 The software factory's gate runs `factory/checks.sh`: `npm ci`, then lint, typecheck, test and
-build, each as its own step.
+build, then `npm run browser:install` and `npm run test:browser`, each as its own step. The two
+browser steps need the network the first time, to download Chromium, so the gate rejects a change
+when the browser tests fail.
