@@ -43,6 +43,7 @@ describe("browser test setup", () => {
     expect(config.match(/name:\s*"chromium"/g)).toHaveLength(1);
     expect(config).toContain("reuseExistingServer: false");
     expect(config).not.toMatch(/\b(3000|5173)\b/);
+    expect(config).toContain("chromiumSandbox: true");
     expect(config).not.toContain("--no-sandbox");
     expect(config).not.toMatch(/reporter:[^\n]*html/);
   });

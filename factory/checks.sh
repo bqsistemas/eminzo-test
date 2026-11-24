@@ -48,8 +48,9 @@ npm run lint
 npm run typecheck
 npm test
 npm run build
-# Browser tests. browser:install downloads Chromium over the network into the per-user Playwright
-# cache (outside the repo), and does nothing when it is already cached. test:browser starts the
-# service and the panel on free loopback ports, runs Chromium, and stops everything.
+# Browser tests. browser:install downloads Chromium over the network into the per-user
+# Playwright cache (outside the repo), and does nothing when it is already cached.
+# test:browser starts the service and the panel on free loopback ports, runs Chromium and
+# stops everything.
 npm run browser:install
 npm run test:browser

@@ -20,7 +20,17 @@ export default defineConfig({
   forbidOnly: true,
   retries: 0,
   reporter: "list",
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"], headless: true } }],
+  projects: [
+    {
+      name: "chromium",
+      // Playwright launches Chromium with --no-sandbox unless chromiumSandbox is true.
+      use: {
+        ...devices["Desktop Chrome"],
+        headless: true,
+        launchOptions: { chromiumSandbox: true },
+      },
+    },
+  ],
   webServer: [
     {
       command: "node src/server/main.ts",
