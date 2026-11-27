@@ -84,7 +84,7 @@ describe("sidebar", () => {
     }
   });
 
-  it("AC-4: the example elements keep their attributes and .panel keeps max-width 40rem", () => {
+  it("AC-4 and AC-6: the example elements keep their attributes and .panel keeps max-width 40rem", () => {
     const status = document.querySelector("main.panel #service-status");
     expect(status?.getAttribute("role")).toBe("status");
     expect(status?.getAttribute("aria-live")).toBe("polite");
@@ -93,7 +93,7 @@ describe("sidebar", () => {
     expect(status?.getAttribute("data-state")).toBe("loading");
     expect(status?.textContent?.trim()).toBe("Checking the service…");
     const greeting = document.querySelector("main.panel #greeting");
-    expect(greeting?.textContent?.trim()).toBe("Hello, world!");
+    expect(greeting?.textContent?.trim()).toBe("Hola, Mundo");
     expect(greeting?.hasAttribute("role")).toBe(false);
     const panel = rules().find((r) => r.selector === ".panel" && !r.inMedia);
     expect(panel?.body).toMatch(/max-width:\s*40rem/);

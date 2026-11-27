@@ -117,11 +117,12 @@ flags files a job adds or moves that no line mentions.
 
 ## UI contract
 
-- One page, `src/web/index.html`, `lang="en"`; all UI copy is English.
+- One page, `src/web/index.html`, `lang="en"`; all UI copy is English, except the `#greeting`
+  paragraph, which is Spanish and carries `lang="es"`.
 - Stable ids and selectors: `#service-status` is the status region (`role="status"`,
   `aria-live="polite"`, `aria-atomic="true"`, `aria-busy` while loading). Its `data-state` is
   `loading`, `working` or `unavailable`; the text tells the state, the colour only reinforces it.
-- `#greeting` is a static, centered `Hello, world!` paragraph before the status region; no
+- `#greeting` is a static, centered `Hola, Mundo` paragraph (`lang="es"`) before the status region; no
   `role`, no `aria-live`, not written by script.
 - Text is always written with `textContent`, never as HTML; nothing from a response body reaches
   the DOM.
