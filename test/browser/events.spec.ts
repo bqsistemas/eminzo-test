@@ -21,6 +21,7 @@ test("AC-6: Eventos shows the block in the right half of the panel", async ({ pa
   const box = await events.boundingBox();
   const panel = await page.locator("main.panel").boundingBox();
   if (!box || !panel) throw new Error("missing bounding box");
+  console.log(JSON.stringify({ box, panel }));
   expect(box.x).toBeGreaterThanOrEqual(panel.x + panel.width / 2 - 1);
   expect(box.x + box.width).toBeLessThanOrEqual(panel.x + panel.width + 1);
 });

@@ -139,7 +139,7 @@ h1 {
 .events:target {
   display: block;
   width: 100%;
-  max-width: 18rem;
+  max-width: 12rem;
   margin-top: 1.5rem;
   margin-left: auto;
   padding: 1rem;
