@@ -20,11 +20,11 @@ describe("greeting", () => {
     document.body.innerHTML = body;
   });
 
-  it("AC-1: one #greeting inside main.panel says Hello, world", () => {
+  it("AC-1: one #greeting inside main.panel says Hola, Mundo", () => {
     expect(document.querySelectorAll("#greeting")).toHaveLength(1);
     const el = document.querySelector("main.panel #greeting");
     expect(el).not.toBeNull();
-    expect(el?.textContent?.trim()).toContain("Hello, world");
+    expect(el?.textContent?.trim()).toBe("Hola, Mundo");
   });
 
   it("AC-2: .greeting centers its text", () => {
@@ -62,5 +62,33 @@ describe("greeting", () => {
     const order = ["lint", "typecheck", "test", "build"].map((s) => verify.indexOf(s));
     expect(order.every((i) => i >= 0)).toBe(true);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
+  });
+
+  it("AC-2: no element contains Hello, world", () => {
+    expect(document.body.textContent).not.toContain("Hello, world");
+  });
+
+  it("AC-3: #greeting has lang=es, no role or aria-live, and html keeps lang=en", () => {
+    const el = document.querySelector("#greeting");
+    expect(el?.getAttribute("lang")).toBe("es");
+    expect(el?.hasAttribute("role")).toBe(false);
+    expect(el?.hasAttribute("aria-live")).toBe(false);
+    expect(/<html[^>]*\slang="en"/.test(html)).toBe(true);
+  });
+
+  it("AC-4: #greeting keeps its id, class and position before #service-status", () => {
+    const el = document.querySelector("main.panel #greeting");
+    expect(el?.classList.contains("greeting")).toBe(true);
+    const status = document.querySelector("#service-status");
+    expect(el && status && el.compareDocumentPosition(status)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+  });
+
+  it("AC-5: project.md UI contract describes Hola, Mundo and not Hello, world!", () => {
+    const md = readFileSync(join(here, "../../factory/project.md"), "utf8");
+    const ui = md.slice(md.indexOf("## UI contract"), md.indexOf("## Conventions"));
+    expect(ui).toContain("Hola, Mundo");
+    expect(ui).not.toContain("Hello, world!");
   });
 });
