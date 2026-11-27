@@ -82,12 +82,13 @@ flags files a job adds or moves that no line mentions.
 - `src/web/index.html`: the panel page: a `nav.sidebar` with anchor links to the examples, the static `#greeting` and the `#service-status` live region.
 - `src/web/styles.css`: the panel styles, including the two-zone sidebar layout.
 - `src/web/sidebar.test.ts`: reads the page and styles from disk to test the sidebar.
+- `src/web/events.test.ts`: reads the page and styles from disk to test the Eventos link and block.
 - `src/web/greeting.test.ts`: reads the page and styles from disk to test the greeting.
 - `src/web/status.ts`: `loadStatus()` (never rejects, validates the body), `renderStatus()`
   (text only, `data-state`) and `mountStatus()`.
 - `src/web/main.ts`: panel entry: mounts the status region.
 - `src/**/*.test.ts`, `test/`: Vitest tests (service, panel, contract mutation with `tsc`,
-  `factory/checks.sh` with a fake `npm`, docs and manifest) and `test/browser/*.spec.ts`, the
+  `factory/checks.sh` with a fake `npm`, docs and manifest) and `test/browser/*.spec.ts` (status, events), the
   Playwright tests (never run by Vitest) with `test/browser/ports.ts`, which picks free ports.
 - `playwright.config.ts`: Playwright: one Chromium project, `test/browser`, `*.spec.ts` only; starts
   the service and two panels (one proxied to a dead port) with `webServer` on free loopback ports.
@@ -132,6 +133,7 @@ flags files a job adds or moves that no line mentions.
 - Sidebar: `nav.sidebar` with an accessible name, before `main.panel`. Stable selectors:
   `.sidebar-group` (one `h2.sidebar-group-title` and one `ul.sidebar-links`). Each entry is one
   anchor link to an id that exists in the page; no script, no collapse button. Colours are plain values in `src/web/styles.css` (no design tokens yet).
+- Events: the sidebar entry `a[href="#events"]` (`Eventos`, `lang="es"`) opens `aside#events.events` (`Espacio para eventos`, `lang="es"`) in `main.panel` with CSS `:target` only: hidden by default, right-aligned when targeted; no script, no close control.
 - Same origin: the page reaches the service only through the dev server's `/api` proxy; the
   service sends no CORS headers.
 
