@@ -22,16 +22,30 @@ describe("events", () => {
     document.body.innerHTML = /<body[^>]*>([\s\S]*)<\/body>/.exec(html)?.[1] ?? "";
   });
 
-  it("AC-1: the aside#events text is exactly Sección para todos los eventos", () => {
+  it("AC-1: the aside#events text is exactly Espacio para eventos", () => {
     const el = document.querySelector("aside#events") as HTMLElement;
-    expect(el.textContent?.trim()).toBe("Sección para todos los eventos");
+    expect(el.textContent?.trim()).toBe("Espacio para eventos");
   });
 
-  it("AC-2: the old text Espacio para eventos does not appear", () => {
-    expect(html).not.toContain("Espacio para eventos");
+  it("AC-2: the text Sección para todos los eventos does not appear", () => {
+    expect(html).not.toContain("Sección para todos los eventos");
   });
 
-  it("AC-3: aside#events keeps id, class, lang and the sidebar link keeps Eventos", () => {
+  it("AC-5: the project.md Events line cites Espacio para eventos", () => {
+    const md = readFileSync(join(here, "../../factory/project.md"), "utf8");
+    const line = md.split("\n").find((l) => l.startsWith("- Events:")) ?? "";
+    expect(line).toContain("Espacio para eventos");
+    expect(line).not.toContain("Sección para todos los eventos");
+  });
+
+  it("AC-4: the page still has the #events link and block the browser test clicks (see test/browser/events.spec.ts)", () => {
+    expect(document.querySelector('a[href="#events"]')).not.toBeNull();
+    expect(document.querySelector("aside#events")?.textContent?.trim()).toBe(
+      "Espacio para eventos",
+    );
+  });
+
+  it("AC-3: aside#events keeps id, class and lang es, and the sidebar link still says Eventos", () => {
     const el = document.querySelector("aside#events") as HTMLElement;
     expect(el.classList.contains("events")).toBe(true);
     expect(el.getAttribute("lang")).toBe("es");
@@ -52,7 +66,7 @@ describe("events", () => {
     expect(document.querySelectorAll('[id="events"]')).toHaveLength(1);
     const el = document.querySelector("main.panel #events") as HTMLElement;
     expect(el).not.toBeNull();
-    expect(el.textContent?.trim()).toBe("Sección para todos los eventos");
+    expect(el.textContent?.trim()).toBe("Espacio para eventos");
     expect(el.getAttribute("lang")).toBe("es");
     expect(el.hasAttribute("style")).toBe(false);
     for (const attr of el.getAttributeNames()) expect(attr.startsWith("on")).toBe(false);

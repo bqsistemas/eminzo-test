@@ -16,7 +16,7 @@ test("AC-4: Eventos shows the block in the right half of the panel", async ({ pa
 
   await page.getByRole("link", { name: "Eventos" }).click();
   await expect(events).toBeVisible();
-  await expect(events).toHaveText("Sección para todos los eventos");
+  await expect(events).toHaveText("Espacio para eventos");
 
   const box = await events.boundingBox();
   const panel = await page.locator("main.panel").boundingBox();
