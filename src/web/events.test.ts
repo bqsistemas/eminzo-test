@@ -22,6 +22,22 @@ describe("events", () => {
     document.body.innerHTML = /<body[^>]*>([\s\S]*)<\/body>/.exec(html)?.[1] ?? "";
   });
 
+  it("AC-1: the aside#events text is exactly Sección para todos los eventos", () => {
+    const el = document.querySelector("aside#events") as HTMLElement;
+    expect(el.textContent?.trim()).toBe("Sección para todos los eventos");
+  });
+
+  it("AC-2: the old text Espacio para eventos does not appear", () => {
+    expect(html).not.toContain("Espacio para eventos");
+  });
+
+  it("AC-3: aside#events keeps id, class, lang and the sidebar link keeps Eventos", () => {
+    const el = document.querySelector("aside#events") as HTMLElement;
+    expect(el.classList.contains("events")).toBe(true);
+    expect(el.getAttribute("lang")).toBe("es");
+    expect(document.querySelector('a[href="#events"]')?.textContent?.trim()).toBe("Eventos");
+  });
+
   it("AC-1: one a[href='#events'] with text Eventos, sole link of its li in a .sidebar-group", () => {
     const links = document.querySelectorAll('a[href="#events"]');
     expect(links).toHaveLength(1);
@@ -36,7 +52,7 @@ describe("events", () => {
     expect(document.querySelectorAll('[id="events"]')).toHaveLength(1);
     const el = document.querySelector("main.panel #events") as HTMLElement;
     expect(el).not.toBeNull();
-    expect(el.textContent?.trim()).toBe("Espacio para eventos");
+    expect(el.textContent?.trim()).toBe("Sección para todos los eventos");
     expect(el.getAttribute("lang")).toBe("es");
     expect(el.hasAttribute("style")).toBe(false);
     for (const attr of el.getAttributeNames()) expect(attr.startsWith("on")).toBe(false);

@@ -133,7 +133,7 @@ flags files a job adds or moves that no line mentions.
 - Sidebar: `nav.sidebar` with an accessible name, before `main.panel`. Stable selectors:
   `.sidebar-group` (one `h2.sidebar-group-title` and one `ul.sidebar-links`). Each entry is one
   anchor link to an id that exists in the page; no script, no collapse button. Colours are plain values in `src/web/styles.css` (no design tokens yet).
-- Events: the sidebar entry `a[href="#events"]` (`Eventos`, `lang="es"`) opens `aside#events.events` (`Espacio para eventos`, `lang="es"`) in `main.panel` with CSS `:target` only: hidden by default, right-aligned when targeted; no script, no close control.
+- Events: the sidebar entry `a[href="#events"]` (`Eventos`, `lang="es"`) opens `aside#events.events` (`Sección para todos los eventos`, `lang="es"`) in `main.panel` with CSS `:target` only: hidden by default, right-aligned when targeted; no script, no close control.
 - Same origin: the page reaches the service only through the dev server's `/api` proxy; the
   service sends no CORS headers.
 
