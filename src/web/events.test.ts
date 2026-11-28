@@ -40,7 +40,9 @@ describe("events", () => {
 
   it("AC-4: the page still has the #events link and block the browser test clicks (see test/browser/events.spec.ts)", () => {
     expect(document.querySelector('a[href="#events"]')).not.toBeNull();
-    expect(document.querySelector("aside#events")?.textContent?.trim()).toBe("Espacio para eventos");
+    expect(document.querySelector("aside#events")?.textContent?.trim()).toBe(
+      "Espacio para eventos",
+    );
   });
 
   it("AC-3: aside#events keeps id, class and lang es, and the sidebar link still says Eventos", () => {
